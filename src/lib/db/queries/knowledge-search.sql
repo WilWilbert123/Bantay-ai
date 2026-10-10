@@ -1,0 +1,1 @@
+-- SQL template for knowledge-search.sql

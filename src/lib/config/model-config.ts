@@ -1,0 +1,1 @@
+// Implementation for model-config
