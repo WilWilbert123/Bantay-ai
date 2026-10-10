@@ -350,7 +350,16 @@ ${guide.afterActions.map(a => `- ${a}`).join('\n')}${activeNote}`;
     // 5. Fallback Default
     else {
       try {
-        const ragResult = await askAssistant(query);
+        // Enforce a strict 5-second timeout for the local LLM to prevent hanging
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Local LLM Timeout')), 5000)
+        );
+        
+        const ragResult = await Promise.race([
+          askAssistant(query),
+          timeoutPromise
+        ]) as any;
+
         responseText = ragResult.response;
         citations = ragResult.sources.map((s: any) => ({
           id: s.id,
