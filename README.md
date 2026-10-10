@@ -76,6 +76,18 @@ Navigate to http://localhost:3000 in your web browser. You can test the followin
 - Emergency Mode & Triage: http://localhost:3000/emergency
 - Tactical Offline Map: http://localhost:3000/map
 
+## The "Hub & Spoke" Architecture (PWA & Offline Networking)
+
+Bantay AI uses a highly efficient Hub & Spoke deployment model tailored for third-world disaster realities:
+- **The Hub (LGU Command Center):** The laptop running the Next.js and SQLite database acts as the local offline server. It does the heavy AI computation.
+- **The Spoke (Citizen Smartphones):** Citizens DO NOT need to download a heavy APK. The Command Center broadcasts a local emergency WiFi hotspot. Citizens simply connect to the WiFi and access the local IP address (e.g., `http://192.168.1.x:3000`).
+
+### Progressive Web App (PWA) Capabilities
+Bantay AI is built as a PWA. When users visit the app in Chrome/Safari on their phone, they can select **"Add to Home Screen"**.
+- This installs a native-feeling app icon on their phone.
+- The app opens in a standalone, full-screen UI without a browser bar.
+- Our custom Service Worker (`sw.js`) automatically caches the app resources for offline resilience.
+
 ## Verification & Automated Test Commands
 
 To verify application stability and AI accuracy:
