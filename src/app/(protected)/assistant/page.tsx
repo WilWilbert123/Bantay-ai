@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { ChatMessage } from '../../../components/assistant/chat-message';
 import { ChatInput } from '../../../components/assistant/chat-input';
 import { ModelStatus } from '../../../components/assistant/model-status';
@@ -20,9 +21,12 @@ type Message = {
   suggestedQuestions?: string[];
 };
 
-export default function AssistantPage() {
+function AssistantChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isInitializing, setIsInitializing] = useState(true);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -73,15 +77,14 @@ export default function AssistantPage() {
 
   useEffect(() => {
     if (!isInitializing && !initialQueryHandled.current) {
-      initialQueryHandled.current = true;
-      const urlParams = new URLSearchParams(window.location.search);
-      const queryParam = urlParams.get('q');
+      const queryParam = searchParams.get('q');
       if (queryParam) {
-        window.history.replaceState({}, '', window.location.pathname);
+        initialQueryHandled.current = true;
+        router.replace(pathname, { scroll: false });
         handleSendMessage(queryParam);
       }
     }
-  }, [isInitializing]);
+  }, [isInitializing, searchParams, router, pathname]);
   const [isGenerating, setIsGenerating] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -275,5 +278,17 @@ export default function AssistantPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function AssistantPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center h-full w-full bg-slate-950 sm:rounded-2xl shadow-2xl border border-slate-800">
+        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+      </div>
+    }>
+      <AssistantChat />
+    </Suspense>
   );
 }
