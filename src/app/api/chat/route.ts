@@ -197,7 +197,7 @@ export async function POST(req: Request) {
         if (typhoonAlerts.length > 0) {
           const alertSummary = typhoonAlerts.map(a => `- **${a.title}**: ${a.description}`).join('\n');
           activeNote = `\n\n--- \n⚠️ **Umiiral na Ulat sa Inyong Lugar:**\n${alertSummary}`;
-          hasMap = true;
+          hasMap = false;
           mapAlerts = typhoonAlerts;
         }
 
@@ -247,7 +247,7 @@ ${guide.specialInstructions?.map(a => `- ${a}`).join('\n')}${activeNote}`;
         if (quakeAlerts.length > 0) {
           const alertSummary = quakeAlerts.map(a => `- **${a.title}**: ${a.description}`).join('\n');
           activeNote = `\n\n--- \n⚠️ **Umiiral na Lindol / Aftershock Advisory:**\n${alertSummary}`;
-          hasMap = true;
+          hasMap = false;
           mapAlerts = quakeAlerts;
         }
 
@@ -294,7 +294,7 @@ ${guide.afterActions.map(a => `- ${a}`).join('\n')}${activeNote}`;
         if (floodAlerts.length > 0) {
           const alertSummary = floodAlerts.map(a => `- **${a.title}**: ${a.description}`).join('\n');
           activeNote = `\n\n--- \n⚠️ **Aktibong Ulat ng Baha sa Lugar:**\n${alertSummary}`;
-          hasMap = true;
+          hasMap = false;
           mapAlerts = floodAlerts;
         }
 
@@ -349,11 +349,20 @@ ${guide.afterActions.map(a => `- ${a}`).join('\n')}${activeNote}`;
     }
     // 5. Fallback Default
     else {
-      responseText = `Ako ang iyong Bantay AI Local Assistant. Handa akong magbigay ng accurate at offline emergency guidance para sa Bagyo, Lindol, Baha, Ashfall, at First Aid.\n\nKasalukuyang may **${activeAlerts.length} active alerts** sa ating lokal na database.\n\nAno ang nais mong malaman?`;
-      citations = [{ id: "doc_sys_1", source: "Bantay AI Local Knowledgebase", title: "Emergency System Index 2026", relevance: 0.90 }];
-      if (activeAlerts.length > 0) {
-        hasMap = true;
-        mapAlerts = activeAlerts;
+      try {
+        const ragResult = await askAssistant(query);
+        responseText = ragResult.response;
+        citations = ragResult.sources.map((s: any) => ({
+          id: s.id,
+          source: "Bantay AI Local Knowledgebase",
+          title: s.title,
+          relevance: 0.95
+        }));
+        hasMap = false;
+      } catch (err) {
+        responseText = `Ako ang iyong Bantay AI Local Assistant. Handa akong magbigay ng accurate at offline emergency guidance para sa Bagyo, Lindol, Baha, Ashfall, at First Aid.\n\nKasalukuyang may **${activeAlerts.length} active alerts** sa ating lokal na database.\n\nAno ang nais mong malaman?`;
+        citations = [{ id: "doc_sys_1", source: "Bantay AI Local Knowledgebase", title: "Emergency System Index 2026", relevance: 0.90 }];
+        hasMap = false;
       }
     }
 

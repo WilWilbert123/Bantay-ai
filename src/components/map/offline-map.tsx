@@ -680,25 +680,6 @@ export default function OfflineMap({ alerts = [], facilities = [], sensors = [] 
             </div>
           )}
 
-          {/* Optional External App Links */}
-          <div className="flex items-center gap-2 pt-1 border-t border-slate-800/80">
-            <a
-              href={`https://waze.com/ul?ll=${selectedRoute.lat},${selectedRoute.lng}&navigate=yes`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 py-1 px-2.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-slate-800 rounded-lg text-[10px] font-bold transition-colors text-center"
-            >
-              Open in Waze App ↗
-            </a>
-            <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${selectedRoute.lat},${selectedRoute.lng}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 py-1 px-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 rounded-lg text-[10px] font-bold transition-colors text-center"
-            >
-              Open in Google Maps App ↗
-            </a>
-          </div>
         </div>
       )}
     </div>
