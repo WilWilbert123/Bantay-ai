@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BantayAI Knowledge Chunk Schema",
+  "type": "object",
+  "required": ["id", "source_id", "content", "metadata"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the vector/chunk."
+    },
+    "source_id": {
+      "type": "string",
+      "description": "ID matching a source in manifest.json."
+    },
+    "content": {
+      "type": "string",
+      "description": "The raw markdown/text chunk used for RAG."
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "relevance_score": { "type": "number" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

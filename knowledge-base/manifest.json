@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-10-10T10:00:00Z",
+  "pipeline_status": "READY",
+  "sources": [
+    {
+      "id": "pagasa",
+      "name": "DOST-PAGASA",
+      "path": "sources/pagasa/typhoon-protocol-2026.md",
+      "type": "markdown",
+      "chunk_count": 12
+    },
+    {
+      "id": "phivolcs",
+      "name": "PHIVOLCS",
+      "path": "sources/phivolcs/earthquake-and-volcano-guide-2026.md",
+      "type": "markdown",
+      "chunk_count": 8
+    },
+    {
+      "id": "ndrrmc",
+      "name": "NDRRMC",
+      "path": "sources/ndrrmc/national-disaster-framework.md",
+      "type": "markdown",
+      "chunk_count": 10
+    },
+    {
+      "id": "red-cross",
+      "name": "Philippine Red Cross",
+      "path": "sources/red-cross/first-aid-and-emergency-response.md",
+      "type": "markdown",
+      "chunk_count": 14
+    },
+    {
+      "id": "local-government",
+      "name": "LGU Guidelines",
+      "path": "sources/local-government/lgu-evacuation-protocols.md",
+      "type": "markdown",
+      "chunk_count": 9
+    },
+    {
+      "id": "doh",
+      "name": "Department of Health",
+      "path": "sources/doh/health-advisories-2026.md",
+      "type": "markdown",
+      "chunk_count": 11
+    }
+  ],
+  "embeddings": {
+    "model": "all-MiniLM-L6-v2-local",
+    "dimension": 384,
+    "total_chunks_indexed": 64
+  }
+}
