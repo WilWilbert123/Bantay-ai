@@ -117,3 +117,4 @@ To verify application stability and AI accuracy:
 ## License
 Bantay AI is built for public disaster resilience. All emergency guidance is derived from official NDRRMC, PAGASA, PHIVOLCS, DOH, and Red Cross protocols.
 # Bantay-ai
+# Bantay-ai
